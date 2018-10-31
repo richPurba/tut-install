@@ -8,7 +8,7 @@ import org.ethereum.facade.EthereumFactory;
 import java.math.BigInteger;
 
 
-public class EthterumBean {
+public class EthereumBean {
 
     private Ethereum ethereum;
 
