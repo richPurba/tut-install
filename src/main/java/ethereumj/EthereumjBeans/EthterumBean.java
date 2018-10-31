@@ -1,8 +1,11 @@
 package ethereumj.EthereumjBeans;
 
-import org.ethereum.core.block;
+import ethereumj.listeners.EthListener;
+import org.ethereum.core.Block;
 import org.ethereum.facade.Ethereum;
 import org.ethereum.facade.EthereumFactory;
+
+import java.math.BigInteger;
 
 
 public class EthterumBean {
@@ -11,6 +14,15 @@ public class EthterumBean {
 
     public void start(){
         this.ethereum = EthereumFactory.createEthereum();
-        this.ethereum.addListener();// make a listener.
+        this.ethereum.addListener(new EthListener(ethereum));// make a listener.
+    }
+
+    public Block getBestBlock(){
+        return this.ethereum.getBlockchain().getBestBlock();
+    }
+
+
+    public BigInteger getTotalDifficulty(){
+        return this.ethereum.getBlockchain().getTotalDifficulty();
     }
 }
