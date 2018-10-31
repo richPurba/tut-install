@@ -1,6 +1,7 @@
 package ethereumj.listeners;
 
 import org.ethereum.core.Block;
+import org.ethereum.core.TransactionReceipt;
 import org.ethereum.facade.Ethereum;
 import org.ethereum.listener.EthereumListener;
 import org.ethereum.listener.EthereumListenerAdapter;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigInteger;
+import java.util.List;
 
 public class EthListener extends EthereumListenerAdapter{
     private Logger logs = LoggerFactory.getLogger(EthereumListener.class);
@@ -43,6 +45,26 @@ public class EthListener extends EthereumListenerAdapter{
         this.ethereum = ethereum;
     }
 
+    @Override
+    public void onBlock(Block block, List<TransactionReceipt> receipts){
+        if(syncDone){
+            out("Net has rate: " + calcNetHashRate(block));
+            out("Block difficulty: " + block.getDifficultyBI().toString());
+            out("Block transactions: " + block.getTransactionsList().toString());
+            out("Best block (last block: " + ethereum.getBlockchain().getBestBlock().toString());
+            out("Total difficulty: " + ethereum.getBlockchain().getTotalDifficulty().toString());
+        }
+
+    }
+
+    @Override
+    public void onSyncDone(SyncState state){
+        out("onSyncDone "+ state);
+        if(!syncDone){
+            out(" ** SYNC DONE ** ");
+            syncDone = true;
+        }
+    }
 
 
 }
